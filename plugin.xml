@@ -77,4 +77,27 @@
 		<header-file src="src/ios/PushPlugin.h" />
 
 	</platform>
+
+	<!-- Windows Phone -->
+	<platform name="wp8">
+		<config-file target="config.xml" parent="/*">
+			<feature name="PushPlugin">
+				<param name="wp-package" value="PushPlugin"/>
+			</feature>
+		</config-file>
+
+		<config-file target="Properties/WMAppManifest.xml" parent="/Deployment/App/Capabilities">
+			<Capability Name="ID_CAP_PUSH_NOTIFICATION"/>
+		</config-file>
+
+		<source-file src="src/wp/PushPlugin.cs" />
+
+	</platform>
+
+	<!-- windows8 -->
+	<platform name="windows8">
+		<js-module src="src/windows8/PushPluginProxy.js" name="PushPlugin">
+			<merges target="" />
+		</js-module>
+	</platform>
 </plugin>
