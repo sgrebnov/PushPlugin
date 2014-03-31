@@ -1,10 +1,14 @@
-# Cordova Push Notifications Plugin for Android, iOS and WP8
+# Cordova Push Notifications Plugin for Android, iOS, WP8 and Windows8
 
 ---
 
 ## DESCRIPTION
 
-This plugin is for use with [Cordova](http://incubator.apache.org/cordova/), and allows your application to receive push notifications on both Android and iOS devices. The Android implementation uses [Google's GCM (Google Cloud Messaging) service](http://developer.android.com/guide/google/gcm/index.html), whereas the iOS version is based on [Apple APNS Notifications](http://developer.apple.com/library/mac/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html)
+This plugin is for use with [Cordova](http://incubator.apache.org/cordova/), and allows your application to receive push notifications on Android, iOS, Windows Phone and Windows8 devices. 
+* Android implementation uses [Google's GCM (Google Cloud Messaging) service](http://developer.android.com/guide/google/gcm/index.html).
+* iOS version is based on [Apple APNS Notifications](http://developer.apple.com/library/mac/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html).
+* WP8 uses [Microsoft MPNS Notifications](http://msdn.microsoft.com/en-us/library/windowsphone/develop/ff402558%28v=vs.105%29.aspx).
+* Windows8 uses [Microsoft WNS Notifications](http://msdn.microsoft.com/en-us/library/windows/apps/hh913756.aspx).
 
 **Important** - Push notifications are intended for real devices. The registration process will fail on the iOS simulator. Notifications can be made to work on the Android Emulator. However, doing so requires installation of some helper libraries, as outlined [here,](http://www.androidhive.info/2012/10/android-push-notifications-using-google-cloud-messaging-gcm-php-and-mysql/) under the section titled "Installing helper libraries and setting up the Emulator".
 
@@ -151,7 +155,7 @@ simply execute plugman as follows;
 plugman install --platform [PLATFORM] --project [TARGET-PATH] --plugin [PLUGIN-PATH]
 
 where
-	[PLATFORM] = ios or android
+	[PLATFORM] = ios or android or wp8 or windows8
 	[TARGET-PATH] = path to folder containing your phonegap project
 	[PLUGIN-PATH] = path to folder containing this plugin
 ```
@@ -367,6 +371,22 @@ When not using PhoneGap Build, you can control the launch page when the user tap
       {
       }
   }
+```
+##### windows8
+Sample usage is showed below. **Note**. To be able to receive toast notifications additional [toastCapable=’true’](http://msdn.microsoft.com/en-us/library/windows/apps/hh781238.aspx) attribute is required in manifest file.
+
+```js
+pushNotification = window.plugins.pushNotification;
+pushNotification.register(successHandler, errorHandler, {"channelName":"your_channel_name","ecb":"onNotification"});
+
+function successHandler(result) {
+  console.log('registered###' + result.uri);
+  // send uri to your notification server
+}
+// fired when push notification is received
+function onNotification (e) {
+  navigator.notification.alert('Notification received: ' + JSON.stringify(e));
+}
 ```
 
 #### unregister
